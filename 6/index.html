@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Перегляд Collapse</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><a href="index.html" class="title">🍕 Клієнтська частина 🍕</a></h1>
+        </header>
+
+        <div class="left">
+            <strong>Інфо</strong><br><br>
+            Ця сторінка автоматично оновлює дані з сервера кожні 5 секунд.
+        </div>
+
+        <div class="center">
+            <h2>Інформаційні блоки</h2>
+            <p>Натисніть на заголовок, щоб розгорнути:</p>
+            
+            <div id="collapse-root" class="collapse-container">
+                Завантаження даних...
+            </div>
+            
+            <p style="font-size: 0.8em; color: gray; margin-top: 20px;">Останнє оновлення: <span id="last-update">...</span></p>
+        </div>
+
+        <div class="right">
+            <div class="first">
+                <a href="admin.html">✏️ Редагувати</a>
+            </div>
+        </div>    
+            
+        <footer>
+            <h1>Перегляд</h1>
+        </footer>
+    </div>
+
+    <script>
+        let previousData = null;
+
+        async function loadData() {
+            try {
+                const response = await fetch('api.php?t=' + new Date().getTime());
+                const data = await response.json();
+
+                if (JSON.stringify(data) !== JSON.stringify(previousData)) {
+                    renderCollapse(data);
+                    previousData = data;
+                    
+                    const time = new Date().toLocaleTimeString();
+                    document.getElementById('last-update').innerText = time;
+                }
+            } catch (error) {
+                console.error('Error loading data:', error);
+            }
+        }
+
+        function renderCollapse(items) {
+            const root = document.getElementById('collapse-root');
+            root.innerHTML = '';
+
+            if (items.length === 0) {
+                root.innerHTML = '<p>Немає даних для відображення.</p>';
+                return;
+            }
+
+            items.forEach((item, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'collapse-item';
+
+                const header = document.createElement('div');
+                header.className = 'collapse-header';
+                header.innerText = item.title;
+                
+                const content = document.createElement('div');
+                content.className = 'collapse-content';
+                content.innerHTML = `<p>${item.content}</p>`;
+
+                header.addEventListener('click', () => {
+                    itemDiv.classList.toggle('active');
+                });
+
+                itemDiv.appendChild(header);
+                itemDiv.appendChild(content);
+                root.appendChild(itemDiv);
+            });
+        }
+
+        loadData();
+
+        setInterval(loadData, 5000);
+    </script>
+</body>
+</html>

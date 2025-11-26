@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Створення Collapse</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><a href="index.html" class="title">🍕 Admin Panel 🍕</a></h1>
+        </header>
+
+        <div class="left">
+            <strong>Інструкція</strong><br><br>
+            Додайте елементи для Collapse меню. Введіть заголовок та текст, потім натисніть "Зберегти на сервер".
+        </div>
+
+        <div class="center">
+            <h2>Конструктор блоків (Collapse)</h2>
+            
+            <div id="form-container" class="admin-controls">
+                </div>
+
+            <br>
+            <button class="btn btn-add" onclick="addItem()">+ Додати елемент</button>
+            <button class="btn btn-save" onclick="saveData()">💾 Зберегти на сервер</button>
+            <p id="status-msg"></p>
+        </div>
+
+        <div class="right">
+            <div class="first">
+                <a href="index.html">👁 Перегляд результату</a>
+            </div>
+        </div>    
+            
+        <footer>
+            <h1>Панель керування</h1>
+        </footer>
+    </div>
+
+    <script>
+        function addItem(title = '', content = '') {
+            const container = document.getElementById('form-container');
+            const div = document.createElement('div');
+            div.className = 'input-group';
+            div.innerHTML = `
+                <input type="text" placeholder="Заголовок блоку" class="item-title" value="${title}">
+                <textarea placeholder="Вміст блоку" class="item-content">${content}</textarea>
+                <button class="btn btn-del" onclick="this.parentElement.remove()">Видалити</button>
+            `;
+            container.appendChild(div);
+        }
+
+        async function saveData() {
+            const titles = document.querySelectorAll('.item-title');
+            const contents = document.querySelectorAll('.item-content');
+            const data = [];
+
+            titles.forEach((input, index) => {
+                if(input.value.trim() !== "") {
+                    data.push({
+                        title: input.value,
+                        content: contents[index].value
+                    });
+                }
+            });
+
+            try {
+                const response = await fetch('api.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                
+                const status = document.getElementById('status-msg');
+                if(result.status === 'success') {
+                    status.style.color = 'green';
+                    status.innerText = 'Дані успішно збережено!';
+                } else {
+                    status.style.color = 'red';
+                    status.innerText = 'Помилка збереження.';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        addItem();
+    </script>
+</body>
+</html>
