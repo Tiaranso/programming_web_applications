@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 7</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><a href="index.html" class="title">🍕 Cucina Italiana 🍕</a></h1>
+        </header>
+
+        <div class="left">
+            <strong>Наша історія</strong>
+            <br><br>
+            Піцерія була заснована родиною італійських іммігрантів...
+            </div>
+
+        <div class="center">
+            <h2>Ласкаво просимо до Mamma Bella!</h2>
+            <p>Відчуйте справжній смак Італії...</p>
+            <div class="highlight">
+                🔥 Наша фірмова дров'яна піч...
+            </div>
+            <p>У нашому меню ви знайдете...</p>
+        </div>
+
+        <div class="right">
+            <div class="first">
+                <a href="menu.html">🍽 Меню</a>
+                <a href="delivery.html">🚚 Доставка</a>
+                <a href="gallery.html">📸 Галерея</a>
+                <a href="about.html">ℹ️ Про нас</a>
+                <a href="contact.html">📞 Контакти</a>
+            </div>
+            <div class="second" id="block3">
+                <h3>📢 Новини та акції</h3>
+                
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <button id="playBtn" class="action-btn">▶ PLAY ANIMATION</button>
+                </div>
+
+                <div id="logsTableContainer"></div>
+
+                <p><strong>🎉 НОВА АКЦІЯ!</strong><br>
+                При замовленні 2 великих піц...</p>
+            </div>
+        </div>    
+            
+        <footer>
+            <h1>Смак справжньої Італії</h1>
+        </footer>
+    </div>
+
+    <div id="work" class="work-overlay" style="display: none;">
+        <div id="anim" class="anim-box">
+            </div>
+        
+        <div id="controls" class="controls-box">
+            <div class="controls-left">
+                <strong>Log:</strong>
+                <div id="liveLog">Очікування старту...</div>
+            </div>
+            <div class="controls-right">
+                <button id="controlBtn" class="action-btn">START</button>
+                <button id="closeBtn" class="action-btn close-btn">CLOSE</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
